@@ -77,7 +77,7 @@
 > 
 > - Use a rigorous scientific method to develop sophisticated investment models and shape our insights into how the markets will behave
 > - Apply quantitative techniques like **machine learning** to **a vast array of datasets**
-> - **Create** and **test** complex investment ideas and partner with our engineers to test your theories
+> - **Create** and **test**  ( i.e. back testing)complex investment ideas and partner with our engineers to test your theories
 > 
 > All the while, you’ll remain engaged in the academic community. As examples, you can:
 > 
@@ -121,6 +121,8 @@
 
     
 ### Data Scientist
+Every problem is tech problem, we don;t care how good is your model, we would rather have a ok model that everyone can use (robust).
+But in finance, it has been to be very high performance.
 
 #### Summary
 
@@ -134,6 +136,7 @@
 **Case study**: How to forecast ETA?
 
 #### [Example 1: Facebook](https://www.facebook.com/careers/jobs/a0I1H00000LCNWKUA5/)
+**CX notes: FB uses a lot of AB test. simutanously testing. we don't do backtesting. **
 
 > Facebook's mission is to give people the power to build community and bring the world closer together. Through our family of apps and services, we're building a different kind of company that connects billions of people around the world, gives them ways to share what matters most to them, and helps bring people closer together. Whether we're creating new products or helping a small business expand its reach, people at Facebook are builders at heart. Our global teams are constantly iterating, solving problems, and working together to empower people around the world to build community and connect in meaningful ways. Together, we can help people build stronger communities — we're just getting started.
 >
