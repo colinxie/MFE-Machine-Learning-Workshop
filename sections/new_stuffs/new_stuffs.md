@@ -23,9 +23,9 @@ A **supervised** model has following parts:
     * negative log-[Likelihood function](https://en.wikipedia.org/wiki/Likelihood_function): probabilistic models
     * [Gram matrix](https://en.wikipedia.org/wiki/Gramian_matrix): [style transfer](http://genekogan.com/works/style-transfer/)
     * [Regularization](https://en.wikipedia.org/wiki/Regularization_(mathematics)) (can be add to any loss)
-        * **AIC/BIC**: $||\beta||_0$ for simpliness
-        * **L1**: $||\beta||_1$ for sparse-ness
-        * **L2**: $||\beta||_2$ for small, non-zero coefficient
+        * **AIC/BIC**: $||\beta||_0$ for simpliness **CX notes: zero norm**
+        * **L1**: $||\beta||_1$ for sparse-ness  **CX notes: 1 norm **
+        * **L2**: $||\beta||_2$ for small, non-zero coefficient **CX notes: 2 norms**
         * **Early stopping**: regularization in time
         * **Share parameter**: e.g., recurrent/convolutional network
         * ...
@@ -34,7 +34,7 @@ A **supervised** model has following parts:
     * Closed-form solution
     * Gradient-based optimization
     * [Genetic algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm)
-
+**CX notes: in supervised leanring, you have data, hyper-paramter, paramter. anything not beta/alpha is hypter-paratmer**
 
 ## Long-term Forecasting in Machine Learning World
 **Question**: Given a time-series $y_t$, What if we have want to forecast $H$ steps further in the future?
@@ -52,7 +52,8 @@ Still assume **assume** $y_t$ follows some additive autoregressive models:
 
 $$y_{t+1} = f(y_t, ..., y_{t-n+1}) + \epsilon_t$$
 
-* **Note I didn't assume stationarity here.** (Why?)
+* **Note I didn't assume stationarity here.** (Why?)**CX notes:  b/c training-test-validatation; i know in validation it will screw up. e.g. i have two tiem seires, i dont chare if they are co-integrated. I just need to corss validate. if it is good, it probably is co-integratied**
+
 * $f(\cdot)$ can be any machine learning model with
     * $X = [\vec y_t, ..., \vec y_{t-n+1}]$
     * $Y = \vec y_{t+1}$
@@ -75,7 +76,8 @@ $$y_{t+1} = f(y_t, ..., y_{t-n+1}) + \epsilon_t$$
 * When $H>1$, things become more interesting. Three possible solutions presented here.
 * **Assume $n=2$ from now on.**
 
-#### Solution 1: Iterated forecasting
+#### Solution 1: Iterated forecasting**CX notes: similar to AR(N) test, error will proprogate**
+
 We forecast $y$'s one at a time.
 $$ 
 \hat y_{t+1} = f(y_t, y_{t-1}) \\
@@ -104,7 +106,8 @@ $$
 * Low performance over longer time horizons H.
 * When we have additional inputs, $x_t$, we need to forecast $\hat x_{t+h}$ as well!
 
-#### Solution 2: $H$-step ahead forecasting
+#### Solution 2: $H$-step ahead forecasting**CX notes: we loss the time component of the connection.(dependence), vector in , scalor out**
+
 Learn $H$ different models:
 $$
 \hat y_{t+1} = f_1(y_t, y_{t-1}) \\
@@ -118,7 +121,7 @@ $$
 * Does NOT suffer from the accumulation of error.
 * **Models are trained independently**, no statistical dependencies between the predicted values $y_{t+h}$ are guaranteed.
 
-#### Solution 3: Multiple input multiple output (MIMO) models
+#### Solution 3: Multiple input multiple output (MIMO) models ( **CX notes: why can't I forecast all N? vector in vector out**)
 One model fits all.
 $$[\hat y_{t+H}, \dots ,\hat y_{t+1}] = f(y_t, y_{t-1})$$
 
@@ -128,10 +131,10 @@ $$[\hat y_{t+H}, \dots ,\hat y_{t+1}] = f(y_t, y_{t-1})$$
 
 #### Summary
 * No free lunch. 
-* Going to traditional ML means no uncertainty estimates.
-* Work-around: [bootstrap](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Block_bootstrap) or Bayesian regression (computationally $$)
+* Going to traditional ML means no uncertainty estimates. (**CX notes: loss your t-test est..**
+* Work-around: [bootstrap](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Block_bootstrap) or Bayesian regression (computationally $$) **CX notes: do it sev**
 
-### How to decide $n$?
+### How to decide $n$?**CX notes: we are not doing full-bayes, so we still need to choose our hyperparation.**
 * **Small $n$**: simpler model, restricted explainability. Unlikely to capture the full seasonality.
 * **Big $n$**: complex model, easy to overfit, don't know where to stop.
 * $n$ usually is a hyper-parameter to tune.
@@ -162,14 +165,14 @@ $$\theta^* = \text{argmin}_{\theta} L(Y, \hat Y)$$
 ### Model evaluations
 Hyper-parameter space is (almost) infinite and non-convex. There will always be a better model:
 
-* Impossible to achieve global maximum
+* Impossible to achieve global maximum**CX notes: that is wy pppl is ok with local max**
 * Gradient-base method cannot be used at hyper-parameter level (not always true -- 
 [Learning to learn by gradient descent by gradient descent](https://arxiv.org/abs/1606.04474))
 
 Given we have some models (with their own hyper-parameters), **how do we compare them?**
 
 * Define an evaluation metric
-    * Sharpe Ratio
+    * Sharpe Ratio**CX notes: useful in finance**
     * PnL
     * Accuracies
     * Click-through rate (recommendation system)
@@ -178,13 +181,13 @@ Given we have some models (with their own hyper-parameters), **how do we compare
 * Train these models on a training set
 * Evaluate on a validation set
 * Pick the best model(s) with best performance on the validation set
-* (Optional) Re-train the model(s) on train + validation set
+* (Optional) Re-train the model(s) on train + validation set**CX notes: why optional? **
 
 **Question**: How do we choose finite models out of the infinite model domain?
 
 ### Time is money
 Some benchmarks of training a model (i.e., a set of hyper-parameter) with < 10G of data:
-
+**CX notes: f(hyper-parameter) -> PnL, evaluation of the function(model) is time consuming**
 * **Linear regressions**: gradient method, parallelizable, <1min
 * **Random forest**: gradient method, parallelizable, ~10min
 * **Boostings**: gradient method, cannot be parallelized, <1h
@@ -217,12 +220,12 @@ To select the parameters at hand. Perhaps not very scientific but still in use..
 * [Sklearn API](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV)
 * How to grid search?
     * discrete variables: simple iterate
-    * continuous variable
+    * continuous variable **CX notes: be smart about how to sample continous variable**
         * uniform grid (e.g., hidden dimensions)
         * log grid (e.g., learning rate)
 * **Curse of dimensionality!** 
 
-### Option 3: Random search
+### Option 3: Random search **CX notes: it is a poorman search, it is much better than Random search (save computing power, time)**
 
 * Some hyper-parameters are useless (won't improve model performace)
 * Better than grid search in various senses but still expensive to guarantee good coverage.
@@ -230,7 +233,7 @@ To select the parameters at hand. Perhaps not very scientific but still in use..
 
 ![-c](images/random_search.png)
 
-**Question**: Can we do better?
+**Question**: Can we do better? **CX notes: ppl use gaussian proccess, it gives you the assamble of all possible functions. This is how Bayesian works.**
 
 ### Option 4: Bayesian optimization
 
@@ -251,13 +254,13 @@ Given fixed data-set, $X$ and $Y$, and pre-specified evaluation metric, $L[f_\la
 > A **quantitative trading strategy** is indeed a **hyper-parameter** -- Frank Xia
 > **Backtesting**: validation/hyper-param tuning through time -- Frank Xia
 
-* How to split data **correctly** (Draw on white board)
-* Retrain on train+val is a **must** (when is not a must?)
+* How to split data **correctly** (Draw on white board) **CX notes: train|val|test, always follows the order**
+* Retrain on train+val is a **must** (when is not a must?)**CX notes: **
 * Robust backtesting
-    * **Rolling backtest**: how to avoid **beginner's luck**?
+    * **Rolling backtest**: how to avoid **beginner's luck**? **CX notes: do multiple cuts(e.g avoid seasonality) **
     * **Model ensemble**: how to reduce variance and seasonality? -- what do ensemble?
 
-> It's a miracle when **loss function** and **evaluation metric** match. -- Frank Xia
+> It's a miracle when **loss function** and **evaluation metric** match. -- Frank Xia **CX notes: evaluation metric: what is it? mostly it is differnt (e.g. MSE is not equal to PnL.) **
   
 * To pick a proper loss function -- an art or a science? 
 
