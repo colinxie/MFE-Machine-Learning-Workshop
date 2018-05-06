@@ -18,13 +18,14 @@
 
 <img src="images/deep_learning.png" width="300px"><img src="images/RL.jpg" width="300px">
 
-### Practical
+### Practical **CX notes: the first book is in python** 
 
 <img src="images/ML_in_action.png" width="300px"><img src="images/building_ML_systems_with_python.png" width="300px">
 
 
 ## Coding
-
+**CX notes: answer picking data structure, timing consuptiom, space consumption. Coursera course from the Algo book auther; also CMU CS depterment coursera course "computer systems: by bryant, c'hallrron": e.g. padding; IMPORTANT: Fluent Python!!!!!!!!! **
+**CX notes: Spark is how you do Big Data**
 <img src="images/Algo.png" width="300px"><img src="images/CSAPP.png" width="300px">
 <img src="images/python_for_data_analysis.png" width="300px"><img src="images/fluent_python.png" width="300px">
 <img src="images/high_performance_python.png" width="300px"><img src="images/advanced_R.png" width="300px">
